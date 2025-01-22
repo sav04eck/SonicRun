@@ -243,3 +243,41 @@ def main_game():
 
         game_clock.tick(30)
         pygame.display.update()
+
+def main_menu(death_count):
+    global current_score
+    is_running = True
+    while is_running:
+        WINDOW.fill((0, 239, 200))
+        font_style = pygame.font.Font('freesansbold.ttf', 30)
+
+        if death_count == 0:
+            start_text = font_style.render("Нажмите любую кнопку чтобы начать", True, (0, 0, 0))
+        else:
+            start_text = font_style.render("Нажмите любую кнопку чтобы рестартнуть", True, (0, 0, 0))
+            final_score_text = font_style.render(f"Твой результат: {current_score}", True, (0, 0, 0))
+            high_score_text = font_style.render(f"Лучший результат: {get_high_score()}", True, (0, 0, 0))
+
+            final_score_rect = final_score_text.get_rect()
+            high_score_rect = high_score_text.get_rect()
+            final_score_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
+            high_score_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 100)
+            WINDOW.blit(final_score_text, final_score_rect)
+            WINDOW.blit(high_score_text, high_score_rect)
+
+        start_text_rect = start_text.get_rect()
+        start_text_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2)
+        WINDOW.blit(start_text, start_text_rect)
+        WINDOW.blit(SONIC_RUNNING[0], (WINDOW_WIDTH // 2 - 20, WINDOW_HEIGHT // 2 - 140))
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                is_running = False
+            if event.type == pygame.KEYDOWN:
+                main_game()
+
+main_menu(death_count=0)
+
+db_connection.close()
