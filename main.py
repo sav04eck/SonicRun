@@ -22,7 +22,7 @@ SONIC_DUCKING = [  # кадры анимации приседания
     pygame.image.load(os.path.join("Texture/Sonic", "SonicDuck1.png")),
     pygame.image.load(os.path.join("Texture/Sonic", "SonicDuck2.png"))
 ]
-SONIC_START = pygame.image.load(os.path.join("Texture/Sonic", "SonicStart.png")) # изображение для меню
+SONIC_START = pygame.image.load(os.path.join("Texture/Sonic", "SonicStart.png"))  # изображение для меню
 
 # Загрузка изображений препятствий
 SMALL_OBSTACLES = [  # небольшие препятствия
@@ -315,7 +315,8 @@ def main_menu(death_count):
             start_text = font_style.render("Нажмите любую кнопку чтобы начать", True, (255, 255, 255))
         else:
             start_text = font_style.render("Нажмите любую кнопку чтобы рестартнуть", True, (255, 255, 255))
-            final_score_text = font_style.render(f"Твой результат: {current_score}", True, (255, 255, 255))  # вывод счета
+            final_score_text = font_style.render(f"Твой результат: {current_score}", True,
+                                                 (255, 255, 255))  # вывод счета
             high_score_text = font_style.render(f"Лучший результат: {get_high_score()}", True,
                                                 (255, 255, 255))  # вывод рекорда
 
