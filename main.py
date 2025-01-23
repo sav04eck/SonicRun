@@ -244,6 +244,15 @@ def main_game():
         game_clock.tick(30)
         pygame.display.update()
 
+def save_score_to_database(score):
+    db_cursor.execute("INSERT INTO Scores (score) VALUES (?)", (score,))
+    db_connection.commit()
+
+def get_high_score():
+    db_cursor.execute("SELECT MAX(score) FROM Scores")
+    high_score = db_cursor.fetchone()[0]
+    return high_score if high_score else 0
+
 def main_menu(death_count):
     global current_score
     is_running = True
