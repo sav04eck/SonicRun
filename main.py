@@ -11,7 +11,7 @@ pygame.init()  # инициализация всех модулей Pygame
 WINDOW_HEIGHT = 600  # высота окна игры
 WINDOW_WIDTH = 1100  # ширина окна игры
 WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))  # создание игрового окна
-pygame.display.set_caption("SonicRun") # изменение название окна
+pygame.display.set_caption("SonicRun") # изменение названиz окна
 
 # Загрузка изображений для анимации Соника
 SONIC_RUNNING = [  # кадры анимации бега
