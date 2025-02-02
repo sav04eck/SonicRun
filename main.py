@@ -2,7 +2,8 @@
 import os  # модуль для работы с файловой системой
 import random  # модуль для генерации случайных чисел
 import sqlite3  # библиотека для работы с базами данных SQLite
-
+import sys
+import time
 import pygame  # библиотека для создания игр
 
 pygame.init()  # инициализация всех модулей Pygame
@@ -307,6 +308,9 @@ def get_high_score():
 def main_menu(death_count):
     global current_score
     is_running = True  # флаг работы меню
+    timer_started = False  # флаг для отслеживания начала таймера
+    timer_start_time = 0    # время начала таймера
+
     while is_running:
         WINDOW.fill((0, 0, 0))  # заполнение экрана черным цветом
         font_style = pygame.font.Font('freesansbold.ttf', 30)  # шрифт для текста
@@ -316,18 +320,36 @@ def main_menu(death_count):
             start_text = font_style.render("Нажмите любую кнопку чтобы начать", True, (255, 255, 255))
         else:
             start_text = font_style.render("Нажмите любую кнопку чтобы рестартнуть", True, (255, 255, 255))
-            final_score_text = font_style.render(f"Твой результат: {current_score}", True,
-                                                 (255, 255, 255))  # вывод счета
-            high_score_text = font_style.render(f"Лучший результат: {get_high_score()}", True,
-                                                (255, 255, 255))  # вывод рекорда
+            final_score_text = font_style.render(f"Твой результат: {current_score}", True, (255, 255, 255))
+            high_score = get_high_score()
+            high_score_text = font_style.render(f"Лучший результат: {high_score}", True, (255, 255, 255))
 
             # Позиционирование текста на экране
             final_score_rect = final_score_text.get_rect()
             high_score_rect = high_score_text.get_rect()
             final_score_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 50)
             high_score_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 100)
+
             WINDOW.blit(final_score_text, final_score_rect)  # отображение текста результата
             WINDOW.blit(high_score_text, high_score_rect)  # отображение текста рекорда
+
+            # Инициализация таймера
+            if not timer_started:
+                timer_started = True
+                timer_start_time = time.time()
+
+            # Отображение таймера обратного отсчета
+            remaining_time = 5 - int(time.time() - timer_start_time)
+            if remaining_time >= 0:
+                timer_text = font_style.render(f"Закрытие через: {remaining_time} сек", True, (255, 0, 0))
+                timer_rect = timer_text.get_rect()
+                timer_rect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 150)
+                WINDOW.blit(timer_text, timer_rect)
+
+            # Завершение игры по истечении времени
+            if remaining_time <= 0:
+                pygame.quit()
+                sys.exit()
 
         # Отображение основного текста (начало или рестарт)
         start_text_rect = start_text.get_rect()
